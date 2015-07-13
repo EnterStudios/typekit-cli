@@ -6,7 +6,7 @@ Once you [sign up](https://accounts.adobe.com/) for an Adobe account, you can ob
 ## Installation
 If you have checked out the code from this repository, you can interact with the interface by typing the following on your command line in the root of your checked out code:
 ```
-./bin/typekit
+./bin/typekit <command> <params>
 ```
 
 If you would like to install this as a gem you can install it via:
@@ -14,17 +14,18 @@ If you would like to install this as a gem you can install it via:
 gem build typekit-cli.gemspec
 gem install typekit-<version>.gem
 ```
+If you are using something like `rbenv` you will want to do an `rbenv rehash` to make the executable available in your current shell after installing the gem.
 
 ## Usage
 
   Option                        | Description
   ------------------------------|--------------------------------------------------
-  `logout`                      | Removes your cached Adobe Typekit API token
-  `list`                        | Lists available kits associated with your account
-  `create --domains=1 2 3 --name=NAME`  | Creates a kit using the specified name and domain list
-  `publish --id=ID`             | Publish the specified kit publicly
-  `remove --id=ID`              | Remove the specified kit
-  `show --id=ID`                | Display detailed information about the specified kit
+  `typekit create --domains=1 2 3 --name=NAME`  | Creates a kit using the specified name and domain list
+  `typekit list`                        | Lists available kits associated with your account
+  `typekit logout`                      | Removes your cached Adobe Typekit API token
+  `typekit publish --id=ID`             | Publish the specified kit publicly
+  `typekit remove --id=ID`              | Remove the specified kit
+  `typekit show --id=ID`                | Display detailed information about the specified kit
 
 ## Testing
 Unit tests are written with [rspec](https://github.com/rspec/rspec) and can be run with the command `bundle exec rspec`
