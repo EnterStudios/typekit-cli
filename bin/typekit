@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'typekit'
+
+exit unless Typekit::Authentication.authenticated? || Typekit::Authentication.prompt_for_token
+
+Typekit::CLI.start(ARGV)
