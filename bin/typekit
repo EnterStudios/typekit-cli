@@ -4,6 +4,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'typekit'
 
-exit unless Typekit::Authentication.authenticated? || Typekit::Authentication.prompt_for_token
+NON_AUTH_ACTIONS = ['logout', 'help']
 
-Typekit::CLI.start(ARGV)
+if Typekit::Authentication.authenticated? || (ARGV & NON_AUTH_ACTIONS).size > 0
+  Typekit::CLI.start(ARGV)
+else
+  Typekit::Authentication.prompt_for_token
+end
