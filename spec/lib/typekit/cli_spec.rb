@@ -16,7 +16,7 @@ module Typekit
         allow(Formatador).to receive(:display_line)
       end
 
-      it 'should clear the existing token' do
+      it 'clears the existing token' do
         expect(Typekit::Authentication).to receive(:clear_token)
 
         subject.logout
@@ -41,25 +41,25 @@ module Typekit
         end
         let(:output) { capture(:stdout) { subject.list } }
 
-        it 'should display a table of results' do
+        it 'displays a table of results' do
           expect(Formatador).to receive(:display_compact_table).with(kits, kits.first.keys)
 
           subject.list
         end
 
-        it 'should display the returned name' do
+        it 'displays the returned name' do
           expect(output).to include(name)
         end
 
-        it 'should display the returned id' do
+        it 'displays the returned id' do
           expect(output).to include(kit_id)
         end
 
-        it 'should display the returned analytics flag' do
+        it 'displays the returned analytics flag' do
           expect(output).to include(analytics)
         end
 
-        it 'should display the returned domain list' do
+        it 'displays the returned domain list' do
           expect(output).to include(parsed_domains)
         end
       end
@@ -68,7 +68,7 @@ module Typekit
         let(:kits) { [] }
         let(:output) { capture(:stdout) { subject.list } }
 
-        it 'should display a message indicating no results' do
+        it 'displays a message indicating no results' do
           expect(output).to include('No kits found')
         end
       end
@@ -93,11 +93,11 @@ module Typekit
         allow(api).to receive(:create_kit).with(name, domains.split("\s")).and_return(response)
       end
 
-      it 'should display a message indicating success' do
+      it 'displays a message indicating success' do
         expect(output).to include('Successfully created kit')
       end
 
-      it 'should display the created kit id' do
+      it 'displays the created kit id' do
         expect(output).to include(kit_id)
       end
     end
@@ -147,38 +147,38 @@ module Typekit
         allow(api).to receive(:get_kit).with(kit_id).and_return(kit)
       end
 
-      it 'should display the kit name' do
+      it 'displays the kit name' do
         expect(output).to include(name)
       end
 
-      it 'should display the kit id' do
+      it 'displays the kit id' do
         expect(output).to include(kit_id)
       end
 
-      it 'should display the analytics flag' do
+      it 'displays the analytics flag' do
         expect(output).to include('false')
       end
 
-      it 'should display the domain list' do
+      it 'displays the domain list' do
         expect(output).to include(domains.split("\s").join(','))
       end
 
-      it 'should display the family names' do
+      it 'displays the family names' do
         expect(output).to include(family1_name)
         expect(output).to include(family2_name)
       end
 
-      it 'should display the family ids' do
+      it 'displays the family ids' do
         expect(output).to include(family1_id)
         expect(output).to include(family2_id)
       end
 
-      it 'should display the family slugs' do
+      it 'displays the family slugs' do
         expect(output).to include(family1_slug)
         expect(output).to include(family2_slug)
       end
 
-      it 'should display the family css selectors' do
+      it 'displays the family css selectors' do
         expect(output).to include(family1_css.join(','))
         expect(output).to include(family2_css.join(','))
       end
@@ -192,11 +192,11 @@ module Typekit
         allow(api).to receive(:publish_kit).with(kit_id)
       end
 
-      it 'should display a message indicating success' do
+      it 'displays a message indicating success' do
         expect(output).to include('Successfully published kit')
       end
 
-      it 'should display the published kit id' do
+      it 'displays the published kit id' do
         expect(output).to include(kit_id)
       end
     end
@@ -209,11 +209,11 @@ module Typekit
         allow(api).to receive(:remove_kit).with(kit_id)
       end
 
-      it 'should display a message indicating success' do
+      it 'displays a message indicating success' do
         expect(output).to include('Successfully removed kit')
       end
 
-      it 'should display the removed kit id' do
+      it 'displays the removed kit id' do
         expect(output).to include(kit_id)
       end
     end

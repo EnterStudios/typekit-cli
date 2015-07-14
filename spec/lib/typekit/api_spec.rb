@@ -77,7 +77,7 @@ module Typekit
                        headers: { content_type: 'application/json' })
         end
 
-        it 'should exit with a status code of 1' do
+        it 'exits with a status code of 1' do
           begin
             subject
           rescue SystemExit => e
@@ -98,7 +98,7 @@ module Typekit
                        headers: { content_type: 'application/json' })
         end
 
-        it 'should return the kit information' do
+        it 'returns the kit information' do
           expect(subject).to eq(kit_response['kit'])
         end
       end
@@ -111,7 +111,7 @@ module Typekit
                        headers: { content_type: 'application/json' })
         end
 
-        it 'should exit with a status code of 1' do
+        it 'exits with a status code of 1' do
           begin
             subject
           rescue SystemExit => e
@@ -138,12 +138,12 @@ module Typekit
           subject
         end
 
-        it 'should POST to the api with the correct information' do
+        it 'sends an HTTP POST with the information for the new kit' do
           expect(WebMock).to have_requested(:post, "#{API::API_URI}/kits")
             .with(body: request)
         end
 
-        it 'should return the name and ID of the created kit' do
+        it 'returns the name and ID of the created kit' do
           expect(subject.parsed_response).to eq(kit_response)
         end
       end
@@ -157,7 +157,7 @@ module Typekit
                        headers: { content_type: 'application/json' })
         end
 
-        it 'should exit with a status code of 1' do
+        it 'exits with a status code of 1' do
           begin
             subject
           rescue SystemExit => e
@@ -180,7 +180,7 @@ module Typekit
           subject
         end
 
-        it 'should POST to the api' do
+        it 'sends an HTTP POST for the specified kit' do
           expect(WebMock).to have_requested(:post, publish_uri)
         end
       end
@@ -193,7 +193,7 @@ module Typekit
                        headers: { content_type: 'application/json' })
         end
 
-        it 'should exit with a status code of 1' do
+        it 'exits with a status code of 1' do
           begin
             subject
           rescue SystemExit => e
@@ -216,7 +216,7 @@ module Typekit
           subject
         end
 
-        it 'should DELETE the specified kit' do
+        it 'sends an HTTP DELETE for the specified kit' do
           expect(WebMock).to have_requested(:delete, "#{API::API_URI}/kits/abcd123")
         end
       end
@@ -229,7 +229,7 @@ module Typekit
                        headers: { content_type: 'application/json' })
         end
 
-        it 'should exit with a status code of 1' do
+        it 'exits with a status code of 1' do
           begin
             subject
           rescue SystemExit => e

@@ -15,7 +15,7 @@ module Typekit
           allow(subject).to receive(:get_token).and_return(auth_token)
         end
 
-        it 'should return true' do
+        it 'returns true' do
           expect(subject.authenticated?).to be_truthy
         end
       end
@@ -25,7 +25,7 @@ module Typekit
           allow(subject).to receive(:get_token).and_return(nil)
         end
 
-        it 'should return false' do
+        it 'returns false' do
           expect(subject.authenticated?).to be_falsey
         end
       end
@@ -39,7 +39,7 @@ module Typekit
           allow(File).to receive(:open).with(token_path, 'r').and_return(token_writer)
         end
 
-        it 'should return the stored auth token' do
+        it 'returns the stored auth token' do
           expect(subject.get_token).to eq(auth_token)
         end
       end
@@ -49,7 +49,7 @@ module Typekit
           allow(File).to receive(:exist?).and_return(false)
         end
 
-        it 'should return nil' do
+        it 'returns nil' do
           expect(subject.get_token).to eq(nil)
         end
       end
@@ -60,7 +60,7 @@ module Typekit
         allow(File).to receive(:exist?).and_return(true)
       end
 
-      it 'should unlink the file' do
+      it 'removes the file' do
         expect(File).to receive(:unlink).with(token_path)
 
         subject.clear_token
@@ -74,7 +74,7 @@ module Typekit
         allow(File).to receive(:open).with(token_path, 'w').and_yield(token_writer)
       end
 
-      it 'should write the token to the file' do
+      it 'writes the token to the file' do
         expect(token_writer).to receive(:write).with(auth_token)
 
         subject.prompt_for_token
