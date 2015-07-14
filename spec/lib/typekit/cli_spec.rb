@@ -31,14 +31,14 @@ module Typekit
       context 'server returns one or more kits' do
         let(:analytics) { 'false' }
         let(:parsed_domains) { domains.split("\s").join(',') }
-        let(:kits) {
+        let(:kits) do
           [{
             'name' => name,
             'id' => kit_id,
             'analytics' => analytics,
             'domains' => parsed_domains
           }]
-        }
+        end
         let(:output) { capture(:stdout) { subject.list } }
 
         it 'should display a table of results' do
@@ -77,17 +77,17 @@ module Typekit
     describe '#create' do
       let(:args) { ['create', '--name', name, '--domains', domains.split("\s")] }
       let(:output) { capture(:stdout) { described_class.start(args) } }
-      let(:response) {
+      let(:response) do
         {
           'kit' => {
-            'id'=>kit_id,
-            'name'=>name,
-            'analytics'=>false,
-            'domains'=> domains.split('\s'),
-            'families'=>[]
+            'id' => kit_id,
+            'name' => name,
+            'analytics' => false,
+            'domains' => domains.split('\s'),
+            'families' => []
           }
         }
-      }
+      end
 
       before(:each) do
         allow(api).to receive(:create_kit).with(name, domains.split("\s")).and_return(response)
@@ -113,35 +113,35 @@ module Typekit
       let(:family2_slug) { 'family2-web' }
       let(:family1_css) { ['family1-1', 'family1-2'] }
       let(:family2_css) { ['family2-1', 'family2-2'] }
-      let(:kit) {
+      let(:kit) do
         {
-          'id'=>kit_id,
-          'name'=>name,
-          'analytics'=>false,
-          'domains'=>domains.split("\s"),
-          'families'=>
+          'id' => kit_id,
+          'name' => name,
+          'analytics' => false,
+          'domains' => domains.split("\s"),
+          'families' =>
             [
               {
-                'id'=>family1_id,
-                'name'=>family1_name,
-                'slug'=>family1_slug,
-                'css_names'=>family1_css,
-                'css_stack'=>'\'family1-1\',\'family1-2\',serif',
-                'subset'=>'default',
-                'variations'=>['n4', 'i4', 'n7', 'i7']
+                'id' => family1_id,
+                'name' => family1_name,
+                'slug' => family1_slug,
+                'css_names' => family1_css,
+                'css_stack' => '\'family1-1\',\'family1-2\',serif',
+                'subset' => 'default',
+                'variations' => ['n4', 'i4', 'n7', 'i7']
               },
               {
-                'id'=>family2_id,
-                'name'=>family2_name,
-                'slug'=>family2_slug,
-                'css_names'=>family2_css,
-                'css_stack'=>'\'family2-1\',\'family2-2\',serif',
-                'subset'=>'default',
-                'variations'=>['n4', 'i4', 'n7', 'i7']
-              },
+                'id' => family2_id,
+                'name' => family2_name,
+                'slug' => family2_slug,
+                'css_names' => family2_css,
+                'css_stack' => '\'family2-1\',\'family2-2\',serif',
+                'subset' => 'default',
+                'variations' => ['n4', 'i4', 'n7', 'i7']
+              }
             ]
         }
-      }
+      end
 
       before(:each) do
         allow(api).to receive(:get_kit).with(kit_id).and_return(kit)

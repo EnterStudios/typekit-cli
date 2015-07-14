@@ -37,13 +37,13 @@ module Typekit
     def get_kit(id)
       response = process_errors(self.class.get("/kits/#{id}"))
 
-      response.has_key?('kit') ? response['kit'] : []
+      response.key?('kit') ? response['kit'] : []
     end
 
     def create_kit(name, domains)
-      create_body = {name: name, domains: domains}
+      create_body = { name: name, domains: domains }
 
-      process_errors(self.class.post("/kits", body: create_body))
+      process_errors(self.class.post('/kits', body: create_body))
     end
 
     def publish_kit(id)
@@ -57,7 +57,7 @@ module Typekit
     private
 
     def process_errors(response)
-      if response.has_key?('errors')
+      if response.key?('errors')
         errors = '[red]The server responded with the following error(s):[/] '
         errors << response['errors'].join(',')
 

@@ -4,29 +4,23 @@ module Typekit
 
     let(:kit_id) { 'abcd123' }
     let(:list_uri) { "#{API::API_URI}/kits" }
-    let(:kit_uri) { "#{list_uri}/#{kit_id}"}
+    let(:kit_uri) { "#{list_uri}/#{kit_id}" }
     let(:publish_uri) { "#{kit_uri}/publish" }
 
-    let(:list_response) {
-      { 'kits' => [{'id'=>kit_id, 'link'=>kit_uri}] }
-    }
-    let(:empty_list_response) {
-      { 'kits' => [] }
-    }
-    let(:kit_response) {
+    let(:list_response) { { 'kits' => [{ 'id' => kit_id, 'link' => kit_uri }] } }
+    let(:empty_list_response) { { 'kits' => [] } }
+    let(:kit_response) do
       {
         'kit' => {
-          'id'=>kit_id,
-          'name'=>'test kit 1',
-          'analytics'=>false,
-          'domains'=>['a.com', 'b.com', 'c.com'],
-          'families'=>[]
+          'id' => kit_id,
+          'name' => 'test kit 1',
+          'analytics' => false,
+          'domains' => ['a.com', 'b.com', 'c.com'],
+          'families' => []
         }
       }
-    }
-    let(:error_response) {
-      { 'errors' => ['Not authenticated'] }
-    }
+    end
+    let(:error_response) { { 'errors' => ['Not authenticated'] } }
 
     before(:each) do
       # silence formatador output for errors
@@ -37,24 +31,24 @@ module Typekit
       subject { described_class.new(auth_token).get_kits }
 
       context 'returns list of kits' do
-        let(:formatted_response) {
+        let(:formatted_response) do
           [{
             'name' => 'test kit 1',
             'id' => kit_id,
             'analytics' => 'false',
             'domains' => 'a.com,b.com,c.com'
           }]
-        }
+        end
 
         before(:each) do
-          stub_request(:get, list_uri).
-            to_return(body: list_response.to_json,
-                      status: 200,
-                      headers: {content_type: 'application/json'})
-          stub_request(:get, kit_uri).
-            to_return(body: kit_response.to_json,
-                      status: 200,
-                      headers: {content_type: 'application/json'})
+          stub_request(:get, list_uri)
+            .to_return(body: list_response.to_json,
+                       status: 200,
+                       headers: { content_type: 'application/json' })
+          stub_request(:get, kit_uri)
+            .to_return(body: kit_response.to_json,
+                       status: 200,
+                       headers: { content_type: 'application/json' })
         end
 
         it 'returns display information about each kit' do
@@ -64,10 +58,10 @@ module Typekit
 
       context 'returns no kits' do
         before(:each) do
-          stub_request(:get, list_uri).
-            to_return(body: empty_list_response.to_json,
-                      status: 200,
-                      headers: {content_type: 'application/json'})
+          stub_request(:get, list_uri)
+            .to_return(body: empty_list_response.to_json,
+                       status: 200,
+                       headers: { content_type: 'application/json' })
         end
 
         it 'returns no kits to be displayed' do
@@ -77,10 +71,10 @@ module Typekit
 
       context 'returns an error' do
         before(:each) do
-          stub_request(:get, list_uri).
-            to_return(body: error_response.to_json,
-                      status: 401,
-                      headers: {content_type: 'application/json'})
+          stub_request(:get, list_uri)
+            .to_return(body: error_response.to_json,
+                       status: 401,
+                       headers: { content_type: 'application/json' })
         end
 
         it 'should exit with a status code of 1' do
@@ -91,7 +85,6 @@ module Typekit
           end
         end
       end
-
     end
 
     describe '#get_kit' do
@@ -99,10 +92,10 @@ module Typekit
 
       context 'returns a kit' do
         before(:each) do
-          stub_request(:get, kit_uri).
-            to_return(body: kit_response.to_json,
-                      status: 200,
-                      headers: {content_type: 'application/json'})
+          stub_request(:get, kit_uri)
+            .to_return(body: kit_response.to_json,
+                       status: 200,
+                       headers: { content_type: 'application/json' })
         end
 
         it 'should return the kit information' do
@@ -112,10 +105,10 @@ module Typekit
 
       context 'invalid kit id specified' do
         before(:each) do
-          stub_request(:get, kit_uri).
-            to_return(body: error_response.to_json,
-                      status: 401,
-                      headers: {content_type: 'application/json'})
+          stub_request(:get, kit_uri)
+            .to_return(body: error_response.to_json,
+                       status: 401,
+                       headers: { content_type: 'application/json' })
         end
 
         it 'should exit with a status code of 1' do
@@ -131,23 +124,23 @@ module Typekit
     describe '#create_kit' do
       let(:name) { 'test kit 1' }
       let(:domains) { ['a.com', 'b.com', 'c.com'] }
-      let(:request) { "name=test%20kit%201&domains[]=a.com&domains[]=b.com&domains[]=c.com" }
+      let(:request) { 'name=test%20kit%201&domains[]=a.com&domains[]=b.com&domains[]=c.com' }
       subject { described_class.new(auth_token).create_kit(name, domains) }
 
       context 'succesfully created new kit' do
         before(:each) do
-          stub_request(:post, list_uri).
-            with(body: request).
-            to_return(body: kit_response.to_json,
-                      status: 200,
-                      headers: {content_type: 'application/json'})
+          stub_request(:post, list_uri)
+            .with(body: request)
+            .to_return(body: kit_response.to_json,
+                       status: 200,
+                       headers: { content_type: 'application/json' })
 
           subject
         end
 
         it 'should POST to the api with the correct information' do
-          expect(WebMock).to have_requested(:post, "#{API::API_URI}/kits").
-            with(body: request)
+          expect(WebMock).to have_requested(:post, "#{API::API_URI}/kits")
+            .with(body: request)
         end
 
         it 'should return the name and ID of the created kit' do
@@ -157,11 +150,11 @@ module Typekit
 
       context 'unable to create more kits' do
         before(:each) do
-          stub_request(:post, list_uri).
-            with(body: request).
-            to_return(body: error_response.to_json,
-                      status: 400,
-                      headers: {content_type: 'application/json'})
+          stub_request(:post, list_uri)
+            .with(body: request)
+            .to_return(body: error_response.to_json,
+                       status: 400,
+                       headers: { content_type: 'application/json' })
         end
 
         it 'should exit with a status code of 1' do
@@ -180,9 +173,9 @@ module Typekit
       context 'succesfully publish kit' do
         before(:each) do
           stub_request(:post, publish_uri)
-            .to_return(body: {'published' => '2015-07-12T22:04:53Z'}.to_json,
+            .to_return(body: { 'published' => '2015-07-12T22:04:53Z' }.to_json,
                        status: 200,
-                       headers: {content_type: 'application/json'})
+                       headers: { content_type: 'application/json' })
 
           subject
         end
@@ -194,10 +187,10 @@ module Typekit
 
       context 'unable to publish kit' do
         before(:each) do
-          stub_request(:post, publish_uri).
-            to_return(body: error_response.to_json,
-                      status: 400,
-                      headers: {content_type: 'application/json'})
+          stub_request(:post, publish_uri)
+            .to_return(body: error_response.to_json,
+                       status: 400,
+                       headers: { content_type: 'application/json' })
         end
 
         it 'should exit with a status code of 1' do
@@ -216,9 +209,9 @@ module Typekit
       context 'successfully remove kit' do
         before(:each) do
           stub_request(:delete, kit_uri)
-            .to_return(body: "{}",
+            .to_return(body: '{}',
                        status: 200,
-                       headers: {content_type: 'application/json'})
+                       headers: { content_type: 'application/json' })
 
           subject
         end
@@ -233,8 +226,7 @@ module Typekit
           stub_request(:delete, kit_uri)
             .to_return(body: error_response.to_json,
                        status: 400,
-                       headers: {content_type: 'application/json'})
-
+                       headers: { content_type: 'application/json' })
         end
 
         it 'should exit with a status code of 1' do

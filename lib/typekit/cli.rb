@@ -31,28 +31,28 @@ module Typekit
     option :id, type: :string, required: true
     def show
       kit = @api.get_kit(options[:id])
-      
+
       Formatador.display_line("[bold]Name:[/] #{kit['name']}")
       Formatador.display_line("[bold]ID:[/] #{kit['id']}")
       Formatador.display_line("[bold]Analytics:[/] #{kit['analytics']}")
       Formatador.display_line("[bold]Domains:[/] #{kit['domains'].join(',')}")
 
-      Formatador.display_line("[bold]Families:[/]")
+      Formatador.display_line('[bold]Families:[/]')
 
-      Formatador.indent {
+      Formatador.indent do
         kit['families'].each do |family|
           Formatador.display_line("[bold]Name:[/] #{family['name']}")
           Formatador.display_line("[bold]ID:[/] #{family['id']}")
           Formatador.display_line("[bold]Slug:[/] #{family['slug']}")
           Formatador.display_line("[bold]CSS Names:[/] #{family['css_names'].join(',')}\n")
         end
-      }
+      end
     end
 
     desc 'remove', 'Removes a kit'
     option :id, type: :string, required: true
     def remove
-      response = @api.remove_kit(options[:id])
+      @api.remove_kit(options[:id])
 
       Formatador.display_line("[bold][green]Successfully removed kit[/] [bold]#{options[:id]}[/]")
     end
@@ -75,7 +75,7 @@ module Typekit
     desc 'publish', 'Publish a kit publicly'
     option :id, type: :string, required: true
     def publish
-      respone = @api.publish_kit(options[:id])
+      @api.publish_kit(options[:id])
 
       Formatador.display_line("[bold][green]Successfully published kit [/][bold]#{options[:id]}[/]")
     end
